@@ -1,1 +1,42 @@
-<p>recipe-detail works!</p>
+
+<div class="row" id="row">
+    <div class="col-xs-12">
+        <h1 class='recipe-detail__h1_no-margin-top'>{{selectedRecipeData.name}}</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <img [src]="selectedRecipeData.imagePath" 
+            alt="{{ selectedRecipeData.name }}" 
+            class="img-responsive"
+            style="max-height: 50px; margin-bottom: 20px"
+            >
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+            <div class="btn-group">
+                <button 
+                    type="button" 
+                    class="btn btn-primary dropdown-toggle">
+                        Manage Recipe
+                        <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Add Ingredients to shopping list</a></li>
+                    <li><a href="#">Edit Recipe</a></li>
+                    <li><a href="#">Delete Recipe</a></li>
+                </ul>
+            </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        {{ selectedRecipeData.description }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        Ingredients
+    </div>
+</div>
