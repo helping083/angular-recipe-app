@@ -4,11 +4,11 @@
             <div class="row">
                 <div class="col-sm-5 form-group">
                     <label for="name">Name</label>
-                    <input type="text" id="name" class="form-control" #nameOfIngredient>
+                    <input type="text" id="name" class="form-control" #nameOfIngredient [(ngModel)]="names" [ngModelOptions]="{standalone: true}">
                 </div>
                 <div class='col-sm-2 form-group'>
                     <label for="amount">Amount</label>
-                    <input type="number" id="amount" class="form-control" #amountOfIngredient>
+                    <input type="number" id="amount" class="form-control" #amountOfIngredient [(ngModel)]="amounts" [ngModelOptions]="{standalone: true}">
                 </div>
                 <div class="row" style="margin-left: 1px">
                     <div class="col-xs-12" id="btn-holder">
@@ -21,3 +21,4 @@
         </form>
     </div>
 </div>
+<div *ngIf="names">hello world</div>
