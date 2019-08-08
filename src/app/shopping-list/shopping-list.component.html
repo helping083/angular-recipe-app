@@ -18,6 +18,7 @@
                style="cursor:pointer" 
                *ngFor="let ingredient of ingredients; let i = index" 
                appBold [defaultColor]="'red'"
+               (click)="onEditItem(i)"
             >
                 {{ingredient.name}} ({{ingredient.amount}})
                 <span class="delete-button" (click)="deleteIngredient(i)">x</span>
