@@ -27,8 +27,8 @@
                 </div>
                 <div class="row" style="margin-left: 1px">
                     <div class="col-xs-12" id="btn-holder">
-                        <button class="btn btn-success" type="submit" [disabled]="!f.valid">Add</button>
-                        <button class="btn btn-danger" type="button">Delete</button>
+                        <button class="btn btn-success" type="submit" [disabled]="!f.valid">{{editMode ? 'edit': 'add'}}</button>
+                        <button class="btn btn-danger" type="button" (click)="onDeleteItem()">Delete</button>
                         <button class="btn btn-primary" type="button" (click)="clearForm(f)">Clear</button>
                     </div>
                 </div>

@@ -35,6 +35,11 @@ export class ShoppingListService {
     return this.ingredients[index];
   }
 
+  updateIngredient(index: number, newIngredient: Ingredient):void {
+    this.ingredients[index] = newIngredient;
+    this.ingredientsChanged.next(this.ingredients.slice());
+  }
+
   callBackFn(cb): void {
     let a = cb;
     console.log('a',a)
