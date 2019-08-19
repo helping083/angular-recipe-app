@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { RecipeService } from './recipe.service';
+import { DataStorageService } from '../shared/data-storage.service';
 
 
 @Component({
@@ -7,10 +9,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./recipes.component.css']
 })
 export class RecipesComponent implements OnInit {
-
+  isRecipe: boolean = true;
   
-  constructor() { }
+  constructor(private recipeService: RecipeService, private dataStorageService: DataStorageService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+   this.dataStorageService.getDataSubject.subscribe((item)=>{
+     this.isRecipe = item;
+     console.log('boolean subject', item);
+   })
+  }
 
 }

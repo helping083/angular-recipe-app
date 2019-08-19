@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Recipe } from '../recipes/recipe.model';
 import { RecipeService } from '../recipes/recipe.service';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map, tap } from 'rxjs/operators'
 
 @Injectable()
 
 export class DataStorageService {
-
+  getDataSubject: Subject<boolean> = new Subject<true>();
   constructor(private http: HttpClient, private recipeService: RecipeService) { }
 
   storeRecipe() {
@@ -22,6 +22,7 @@ export class DataStorageService {
     return this.http.get<Recipe[]>("https://ng-course-recipe-book-f7f98.firebaseio.com/recipes.json")
     .pipe(map((recipe)=>{
       console.log(recipe)
+      this.getDataSubject.next(false);
         return recipe.map((recipe)=>{
           return {...recipe, ingredients:  recipe.ingredients ? recipe.ingredients: []}
         })

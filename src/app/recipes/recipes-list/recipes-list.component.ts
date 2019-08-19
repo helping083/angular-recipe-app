@@ -32,9 +32,6 @@ export class RecipesListComponent implements OnInit, OnDestroy {
     this.recipesSubscripton = this.recipeServise.recipeSubj.subscribe((item: Recipe[])=>{
       this.recipes = item;
     });
-    this.onAjax().subscribe((item: any)=>{
-      console.log('item from ajax', item.originalEvent);
-    });
   }
   onNewRecipe(): void {
     this.router.navigate(['new'], {relativeTo: this.route});
