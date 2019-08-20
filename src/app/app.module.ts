@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 import { AppComponent } from './app.component';
@@ -24,7 +24,7 @@ import { RecipesResolverService } from './recipes/recipes-resolver.service';
 import { AuthComponentComponent } from './auth/auth-component/auth-component.component';
 import { AuthServiceService } from '../app/auth/auth-service.service';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
-
+import { AuthInterceptorService } from '../app/auth/auth-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -57,7 +57,8 @@ import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.compo
     RecipeService, 
     DataStorageService, 
     RecipesResolverService, 
-    AuthServiceService
+    AuthServiceService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }
   ],
   bootstrap: [AppComponent]
 })

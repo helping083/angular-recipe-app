@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AuthServiceService } from '../auth-service.service';
+import { AuthServiceService, AuthResponseData, LogInResponseData } from '../auth-service.service';
+import { Observable } from 'rxjs';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth-component',
@@ -11,10 +13,9 @@ export class AuthComponentComponent implements OnInit {
   iSFocused: boolean = false;
   isLoggin: boolean = false;
   error: string|null = null;
-
   private isLoading: boolean = false;
 
-  constructor(private authService: AuthServiceService) { }
+  constructor(private authService: AuthServiceService, private router:Router) { }
 
   ngOnInit() {
 
@@ -22,7 +23,6 @@ export class AuthComponentComponent implements OnInit {
 
   onFocus(): void {
     this.iSFocused = true
-    console.log('hello', this.iSFocused);
   }
 
   onSwitchLogginMode(): void {
@@ -34,23 +34,31 @@ export class AuthComponentComponent implements OnInit {
       return;
     }
 
+    let email = f.value.email;
+    let password = f.value.password;
+    let authObservable: Observable<AuthResponseData|LogInResponseData>;
     this.isLoaded = true;
 
     if (this.isLoggin) {
-      
+      authObservable = this.authService.login(email,password);
     } else {
-      let email = f.value.email;
-      let password = f.value.password;
-      this.authService.signUp(email, password).subscribe((authCredentials) => {
-        this.isLoaded = false
-        console.log('authCredentials', authCredentials);
-      }, error => {
-        this.error = 'an error ocured';
-        this.isLoaded = false;
-        console.log(error)
-      });
+      authObservable = this.authService.signUp(email, password);
     }
+
+    authObservable.subscribe((resData)=>{
+      console.log('resData', resData);
+      this.isLoaded = false;
+      this.router.navigate(['/recipes']);
+    }, errorRes => {
+      this.error = errorRes;
+      this.isLoaded = false;
+      console.log('error in resData', errorRes, email, password);
+    });
     f.reset();
+  }
+
+  private setFormValue(email: string, password:string, form:NgForm):void {
+    
   }
 
   set isLoaded (val: boolean) {
@@ -61,4 +69,5 @@ export class AuthComponentComponent implements OnInit {
     return this.isLoading;
   }
 
+ 
 }
