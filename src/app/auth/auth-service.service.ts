@@ -29,7 +29,7 @@ export class AuthServiceService {
   userSubject: BehaviorSubject<User> = new BehaviorSubject<User>(null);
   private credentials: string = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyB90c1vV8qlYTv0BBcV-B9mIMZAAYFZ5j0';
   private loginCredentials: string = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB90c1vV8qlYTv0BBcV-B9mIMZAAYFZ5j0';
-
+  private tokenExpTimer: any;
   constructor(private http: HttpClient, private router: Router) { }
 
   signUp(email: string, password: string) {
@@ -58,18 +58,51 @@ export class AuthServiceService {
 
   }
 
-  logOut() {
+  logOut(): void {
     this.userSubject.next(null);
     this.router.navigate(['/auth']);
+    localStorage.removeItem('userData');
+
+    if(this.tokenExpTimer) {
+      clearTimeout(this.tokenExpTimer);
+    }
+    this.tokenExpTimer = null;
   }
 
-  private handleAuth(email: string, userId: string, token: string, expiresIn: number) {
+  autoLogout(expDuration: number) {
+    this.tokenExpTimer = setTimeout(()=>{ this.logOut()},expDuration);
+  }
+
+  private handleAuth(email: string, userId: string, token: string, expiresIn: number): void {
     const expDate = new Date(new Date().getTime() + +expiresIn * 1000)
     const user = new User(email, userId, token, expDate);
     this.userSubject.next(user);
+    this.autoLogout(expiresIn*1000);
+    this.saveTokenInStorage(JSON.stringify(user));
   }
 
-  private errorHandling(errorResponse: HttpErrorResponse) {
+  private saveTokenInStorage(user):void {
+    localStorage.setItem('userData', user)
+  } 
+
+  autoLogin() {
+    const userData = JSON.parse(localStorage.getItem('userData'));
+    if(!userData) {
+      return;
+    } 
+    const newUser: User = new User(
+                              userData.email, 
+                              userData.id, 
+                              userData._token, 
+                              new Date(userData._tokenExpirationDate));
+    if(newUser.token) {
+      this.userSubject.next(newUser);
+      const expirationDuration =  new Date(userData._tokenExpirationDate).getTime() - new Date().getTime();
+      this.autoLogout(expirationDuration);
+    }
+  }
+
+  private errorHandling(errorResponse: HttpErrorResponse): Observable<any> {
     let errorMessage = 'An unknown error occured, please try again later';
     if (!errorResponse.error || !errorResponse.error.error) {
       return throwError('An unknown error occured, please try again later');

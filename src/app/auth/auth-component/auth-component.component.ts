@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthServiceService, AuthResponseData, LogInResponseData } from '../auth-service.service';
 import { Observable } from 'rxjs';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth-component',
