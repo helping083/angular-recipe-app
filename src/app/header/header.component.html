@@ -17,6 +17,9 @@
                 <li routerLinkActive="active" *ngIf="!isAuthenticated">
                     <a routerLink="/auth" style="cursor: pointer">log in</a>
                 </li>
+                <li routerLinkActive="active" *ngIf="!isAuthenticated">
+                    <a routerLink="/rxjs" style="cursor: pointer">rxjs</a>
+                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li *ngIf="isAuthenticated">

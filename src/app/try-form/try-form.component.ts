@@ -49,6 +49,7 @@ export class TryFormComponent implements OnInit {
     this.user.secretQuestion = this.signUpForm.value.secret;
     this.user.answer = this.signUpForm.value.questionAnswer;
     this.submitted = true;
-    this.signUpForm.reset();
+    console.log('form', form)
+    // this.signUpForm.reset();
   }
 }

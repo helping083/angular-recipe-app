@@ -60,7 +60,7 @@ export class AuthServiceService {
 
   logOut(): void {
     this.userSubject.next(null);
-    this.router.navigate(['/auth']);
+    this.router.navigate(['/auth', {foo:'foo'}]);
     localStorage.removeItem('userData');
 
     if(this.tokenExpTimer) {

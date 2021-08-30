@@ -8,6 +8,7 @@ import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component
 import { RecipesResolverService } from './recipes/recipes-resolver.service';
 import { AuthComponentComponent } from './auth/auth-component/auth-component.component';
 import { AuthGuard } from './auth/auth.guard';
+import { RxjsTestComponent } from './rxjs-test/rxjs-test.component';
 
 const appRoutes: Routes = [
     {
@@ -20,9 +21,11 @@ const appRoutes: Routes = [
             { path: ':id/edit', component: RecipeEditComponent, resolve: [RecipesResolverService] }
         ]
     },
+    { path: 'rxjs', component: RxjsTestComponent },
     { path: 'shopping-list', component: ShoppingListComponent },
     { path: '', redirectTo: '/recipes', pathMatch: 'full' },
-    { path: 'auth', component: AuthComponentComponent }
+    { path: 'auth', component: AuthComponentComponent },
+    { path: '**',  redirectTo: '/recipes' }
 ]
 
 @NgModule({

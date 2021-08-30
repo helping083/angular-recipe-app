@@ -14,29 +14,29 @@ import { DataStorageService } from 'src/app/shared/data-storage.service';
 })
 
 export class RecipesListComponent implements OnInit, OnDestroy {
-   @ViewChild('ajaxButton', {static: false}) ajaxButton: ElementRef;
-   recipes: Recipe[];
-   recipesSubscripton: Subscription;
+  @ViewChild('ajaxButton', { static: false }) ajaxButton: ElementRef;
+  recipes: Recipe[];
+  recipesSubscripton: Subscription;
 
-   constructor(private recipeServise: RecipeService, 
-                private router: Router, 
-                private route: ActivatedRoute,
-                private dataService: DataStorageService
-              ) { }
+  constructor(private recipeServise: RecipeService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private dataService: DataStorageService
+  ) { }
 
   ngOnInit() {
-    this.dataService.fetchRecipes().subscribe((item)=>{
-        this.recipes = item;
+    this.dataService.fetchRecipes().subscribe((item) => {
+      this.recipes = item;
     });
     // this.recipes = this.recipeServise.getRecipes();
-    this.recipesSubscripton = this.recipeServise.recipeSubj.subscribe((item: Recipe[])=>{
+    this.recipesSubscripton = this.recipeServise.recipeSubj.subscribe((item: Recipe[]) => {
       this.recipes = item;
     });
   }
   onNewRecipe(): void {
-    this.router.navigate(['new'], {relativeTo: this.route});
+    this.router.navigate(['new'], { relativeTo: this.route });
   }
-  onAjax():Observable<any> {
+  onAjax(): Observable<any> {
     let apiData = ajax('https://jsonplaceholder.typicode.com/posts');
     const second = ajax('https://jsonplaceholder.typicode.com/posts/1');
     return apiData.pipe(merge(second));

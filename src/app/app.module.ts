@@ -25,6 +25,8 @@ import { AuthComponentComponent } from './auth/auth-component/auth-component.com
 import { AuthServiceService } from '../app/auth/auth-service.service';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import { AuthInterceptorService } from '../app/auth/auth-interceptor.service';
+import { HeroesModule } from './heroes/heroes.module';
+import { RxjsTestComponent } from './rxjs-test/rxjs-test.component';
 
 @NgModule({
   declarations: [
@@ -43,11 +45,13 @@ import { AuthInterceptorService } from '../app/auth/auth-interceptor.service';
     TryFormComponent,
     ReactFormsComponent,
     AuthComponentComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    RxjsTestComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    HeroesModule,
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule

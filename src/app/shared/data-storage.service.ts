@@ -10,19 +10,22 @@ import { AuthServiceService } from '../auth/auth-service.service';
 
 export class DataStorageService {
   getDataSubject: Subject<boolean> = new Subject<true>();
+  private updateRecipesLink: string = 'https://ng-course-recipe-book-f7f98.firebaseio.com/recipes.json';
+  private getRecipesLink: string = "https://ng-course-recipe-book-f7f98.firebaseio.com/recipes.json";
+
   constructor(private http: HttpClient,
     private recipeService: RecipeService,
     private authService: AuthServiceService) { }
 
   storeRecipe() {
     const recipes = this.recipeService.getRecipes();
-    this.http.put('https://ng-course-recipe-book-f7f98.firebaseio.com/recipes.json', recipes).subscribe((item) => {
+    this.http.put( this.updateRecipeLinkGetter, recipes).subscribe((item) => {
       console.log(item);
     });
   }
 
   fetchRecipes(): Observable<any> {
-    return this.http.get<Recipe[]>("https://ng-course-recipe-book-f7f98.firebaseio.com/recipes.json")
+    return this.http.get<Recipe[]>(this.getRecipesLinkFirebase)
       .pipe(map((recipe) => {
         console.log(recipe)
         this.getDataSubject.next(false);
@@ -34,4 +37,12 @@ export class DataStorageService {
           this.recipeService.setRecipes(recipes);
         }));
   }
+
+  get updateRecipeLinkGetter() {
+    return this.updateRecipesLink;
+  }
+  get getRecipesLinkFirebase() {
+    return this.getRecipesLink;
+  }
+  
 }
